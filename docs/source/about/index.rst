@@ -14,9 +14,11 @@ of the
 and available `here <https://repository.lboro.ac.uk/articles/dataset/CREST_Demand_Model_v2_0/2001129>`_.
 
 
-Contact email:
+**This repository is no longer actively maintained.** Users are still welcome to report questions and reach out to Matteo Barsanti at:**This repository is no longer actively maintained.** Users are still welcome to report questions and reach out to Matteo Barsanti at m.barsanti@ucl.ac.uk.
 
-`demod@groupes.epfl.ch <demod@groupes.epfl.ch>`_
+`m.barsanti@ucl.ac.uk <m.barsanti@ucl.ac.uk>`_
+
+Anyone interested in continuing to develop and maintain this project is very welcome — whether that means updating current input data, extending the models to support Time Use Diary data from other countries, or developing new simulation approaches for different components of demod. Feel free to reach out!
 
 
 Fundings

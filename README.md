@@ -38,7 +38,7 @@ This repository was originally developed as a research project within the
 
 **This repository is no longer actively maintained.** Users are still welcome to report questions and reach out to Matteo Barsanti at m.barsanti@ucl.ac.uk.
 
-Anyone interested in continuing to develop and maintain this project is very welcome — whether that means updating current statistics, extending the models to support Time Use Diary data from other countries, or developing new simulation approaches for different components of demod. Feel free to reach out!
+Anyone interested in continuing to develop and maintain this project is very welcome — whether that means updating current input data, extending the models to support Time Use Diary data from other countries, or developing new simulation approaches for different components of demod. Feel free to reach out!
 
 ## Citation
 
