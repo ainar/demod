@@ -32,9 +32,17 @@ Source code: [GitHub Repository](https://github.com/epfl-herus/demod)
 
 ## About
 
-This repository is managed by
-[HERUS lab](https://www.epfl.ch/labs/herus/) from
+This repository was originally developed as a research project within the
+[HERUS lab](https://www.epfl.ch/labs/herus/) at
 [EPFL : École Polytechnique Fédérale de Lausanne](https://www.epfl.ch/en/).
 
-Please report bugs and ideas for improvement to
-our team: demod@groupes.epfl.ch .
+**This repository is no longer actively maintained.** Users are still welcome to report questions and reach out to Matteo Barsanti at m.barsanti@ucl.ac.uk.
+
+Anyone interested in continuing to develop and maintain this project is very welcome — whether that means updating current statistics, extending the models to support Time Use Diary data from other countries, or developing new simulation approaches for different components of demod. Feel free to reach out!
+
+## Citation
+
+If you use this library in your work, please cite:
+
+> Barsanti, M., Schwarz, J.S., Gérard Constantin, L.G. et al. Socio-technical modeling of smart energy systems: a co-simulation design for domestic energy demand. *Energy Inform* 4 (Suppl 3), 12 (2021). https://doi.org/10.1186/s42162-021-00180-6
+
