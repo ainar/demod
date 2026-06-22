@@ -4,3 +4,40 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "demod"
+version = "0.2-1"
+authors = [
+    {name = "Matteo Barsanti, Lionel Constantin, HERUS, Ecole Polytechnique Fédérale de Lausanne", email = "demod@groupes.epfl.ch"}
+]
+description = "Domestic Energy Demand Modelling Library"
+readme = "README.md"
+license = {text = "GNU General Public License v3 (GPLv3)"}
+keywords = ["energy", "demand", "simulation", "modelling", "load", "electricity", "power", "appliance", "heating", "household", "DSM", "dataset"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.19",
+    "scipy>=1.4",
+    "pandas>=1.2",
+    "matplotlib>=3.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/epfl-herus/demod"
+Documentation = "https://demod.readthedocs.io/"
+
+[tool.setuptools.packages.find]
+where = ["."]
