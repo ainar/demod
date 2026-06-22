@@ -8,8 +8,7 @@ from datetime import timedelta
 import os
 from typing import Any, Dict
 import urllib.request
-import shutil
-import zipfile
+from io import StringIO
 
 import numpy as np
 import pandas as pd
@@ -36,13 +35,10 @@ class NinjaRenewablesClimate(ClimateLoader):
     - 'outside_temperature'
     - 'irradiance'
 
-    Parameters:
+    Attributes:
         weighted_type: The method used to weight the climate.
             This was performed by Renewables.ninja. Can be
             'population' or 'land_area'.
-        update_raw_data: Wether the raw data file should be updated.
-            As time goes by, new data might be collected by
-            Renewable Ninjas.
 
     Loaders:
         :py:meth:`~demod.datasets.base_loader.ClimateLoader.load_historical_climate_data`
@@ -56,7 +52,7 @@ class NinjaRenewablesClimate(ClimateLoader):
     def __init__(
         self, country_name,
         update_raw_data: bool = False,
-        weighted_type: str = 'population',
+        weighted_type: str = 'pop',
         **kwargs
     ) -> Any:
         """Initialize the climate loader for the country.
@@ -92,31 +88,55 @@ class NinjaRenewablesClimate(ClimateLoader):
             return
         # Else download it
         base_url = 'https://www.renewables.ninja/country_downloads/'
-        country_url_template = (
-            '{country}/ninja_weather_country_{country}_'
-            'merra-2_{weighted_type}_weighted.csv'
-        )
-        country_url = base_url + country_url_template.format(
-            country=country_code,
-            weighted_type=weighted_type
-        )
-        print('Downloading {} raw data from {}.'.format(
-            self.DATASET_NAME, country_url
-        ))
-        print('This can take some time.')
-        # Creates the request
-        user_agent = (
-            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) '
-            'Gecko/2009021910 Firefox/3.0.7'
-        )
-        headers = {'User-Agent': user_agent}
-        request = urllib.request.Request(country_url, None, headers)
+        list_data = [
+            'precipitation',
+            'temperature',
+            'irradiance_surface',
+            'irradiance_toa',
+            'snowfall',
+            'snow_mass',
+            'cloud_cover',
+            'air_density',
+        ]
+        merged_df = None
+        for i in list_data:
+            country_url_template = (
+                '{country}/ninja-weather-country-{country}-'
+                + i + '_{weighted_type}_wtd-merra2.csv'
+            )
+            country_url = base_url + country_url_template.format(
+                country=country_code,
+                weighted_type=weighted_type
+            )
+            print('Downloading {} raw data from {}.'.format(
+                self.DATASET_NAME, country_url
+            ))
+            print('This can take some time.')
+            # Creates the request
+            user_agent = (
+                'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) '
+                'Gecko/2009021910 Firefox/3.0.7'
+            )
+            headers = {'User-Agent': user_agent}
+            request = urllib.request.Request(country_url, None, headers)
 
-        # Reads the url and  download the
-        with urllib.request.urlopen(request) as response:
-            with open(self.raw_file_path, 'wb') as f:
-                shutil.copyfileobj(response, f)
-        print('download finished')
+            # Reads the url and  download the data
+            with urllib.request.urlopen(request) as response:
+                csv_data = response.read().decode('utf-8')
+                df = pd.read_csv(StringIO(csv_data), skiprows=3, index_col=0)
+                df = df[['DE']]  # keep only national average values
+                df = df.rename(columns={'DE': i})
+                if merged_df is None:
+                    merged_df = df
+                else:
+                    # Add only new data column(s)
+                    value_cols = [c for c in df.columns if c not in merged_df.columns]
+                    merged_df = merged_df.merge(df[value_cols], on='time', how='outer')
+            print('download finished')
+
+        # Write final merged dataframe once
+        merged_df.to_csv(self.raw_file_path, index=True)
+
         # Now the file is downloaded, we can remove old parsed data
         for f in os.listdir(self.parsed_path_climate):
             os.remove(os.path.join(self.parsed_path_climate, f))
@@ -139,12 +159,12 @@ class NinjaRenewablesClimate(ClimateLoader):
                 - 'outside_temperature'
                 - 'irradiance'
         """
-        df = pd.read_csv(self.raw_file_path, skiprows=2)
+        df = pd.read_csv(self.raw_file_path, index_col=0)
 
         out_dict = {}
 
         out_dict['datetime'] = np.array(
-            df['time'],
+            df.index,
             dtype='datetime64'
         )
 
