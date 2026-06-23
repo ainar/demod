@@ -300,13 +300,13 @@ class Crest(
 
     def _parse_appliance_dict(self) -> AppliancesDict:
         if self.version == "v_2.2":
-
+            nb_newElmt = 6 # new devices added manually
             df = pd.read_excel(
                 self.raw_file_path,
                 "AppliancesAndWaterFixtures",
                 header=0,
-                skiprows=[0, 1, 2, 3, 4, 5, 6, 39, 40, 41, 42, 43, 44],
-                nrows=41,
+                skiprows=[0, 1, 2, 3, 4, 5, 6, 39+nb_newElmt, 40+nb_newElmt, 41+nb_newElmt, 42+nb_newElmt, 43+nb_newElmt, 44+nb_newElmt],     # [0, 1, 2, 3, 4, 5, 6, 39, 40, 41, 42, 43, 44],
+                nrows=41+nb_newElmt,    # 41,
                 engine="openpyxl",
             )
 
@@ -456,6 +456,16 @@ class Crest(
                 counter += 1
                 temp_type = app_type + "_" + str(counter)
 
+            # modify ownership of baseload based on resident number (1p 20 W, 2p 40W... 5p 100W)
+            if len(subgroup)>0:    # only for the creation of subgroups json
+                if app_type == "baseload_two" and subgroup['n_residents']<2:
+                    ownership *= 0 
+                elif app_type == "baseload_three" and subgroup['n_residents']<3:
+                    ownership *= 0
+                elif app_type == "baseload_four" and subgroup['n_residents']<4:
+                    ownership *= 0
+                elif app_type == "baseload_five" and subgroup['n_residents']<5:
+                    ownership *= 0
             app_ownership[temp_type] = ownership
 
         return app_ownership

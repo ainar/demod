@@ -63,5 +63,16 @@ def crest_appname_to_demod_type(names):
         "SINK": "sink",
         "SHOWER": "shower",
         "BATH": "bath",
+        "VENTILATION": "ventilation",
+        "BASELOAD_ONE": "baseload_one",
+        "BASELOAD_TWO": "baseload_two",
+        "BASELOAD_THREE": "baseload_three",
+        "BASELOAD_FOUR": "baseload_four",
+        "BASELOAD_FIVE": "baseload_five",
+		"OTHER_ICT": "other_ict",
+        "BOX": "box",
+		"FRIDGE_AMERICAN": "fridge_american",
+        "BIG_MULTIMEDIA": "big_multimedia",
+        "BIG_COOKING": "big_cooking",
     }
     return translate_1d(names, translate_dict)
