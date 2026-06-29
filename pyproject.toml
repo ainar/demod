@@ -41,3 +41,4 @@ Documentation = "https://demod.readthedocs.io/"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["demod", "demod.*"]

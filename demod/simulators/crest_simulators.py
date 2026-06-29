@@ -111,7 +111,7 @@ class CrestOccupancySimulator(MarkovChain1rstOrder, ActivitySimulator):
         n_households: int,
         n_residents: int,
         day_type: str,
-        data: data_types.DataInput = Crest(),
+        data: data_types.DataInput,
         adjustcdfvalues: bool = True,
         **kwargs
     ):
@@ -232,7 +232,7 @@ class Crest4StatesModel(TimeAwareSimulator, MultiSimulator):
     def __init__(
         self,
         n_households: int,
-        data: Crest = Crest(),
+        data: Crest,
         start_datetime: datetime.datetime = datetime.datetime(2014, 1, 1, 0, 0, 0),
         **kwargs
     ):

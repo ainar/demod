@@ -74,33 +74,22 @@ class Crest(
     # Step size of the load simulation
     step_size = timedelta(minutes=1)
 
-    def __init__(self, version: str = "2.2", /, **kwargs) -> Any:
+    def __init__(self, version: str = "2.2", file: str | None = None, **kwargs):
         """Create a data loader for CREST.
 
         Args:
-            version: [description]. Defaults to '2.2'.
+            file: [description]. Path to the CREST Excel file.
             allow_pickle: [description]. Defaults to False.
 
         Returns:
             Any: [description]
         """
-        version_name = "v_" + version
-        self.version = version
-        super().__init__(version=version_name, **kwargs)
-
+        super().__init__(**kwargs)
+        self.version = "v_" + version
         raw_file_name = "CREST_Demand_Model_v" + version + ".xlsm"
         self.raw_file_path = os.path.join(self.raw_path, raw_file_name)
-
-
-        # Downloads the raw file if it does not exist
-        if not os.path.isfile(self.raw_file_path):
-            if version not in DOWNLOAD_URL_BY_VERSION:
-                raise ValueError('Unkonw Version {} of CREST.'.format(version))
-            # Reads the url and  download the
-            print('Downloading CREST Model to : {}'.format(self.raw_file_path))
-            with request.urlopen(DOWNLOAD_URL_BY_VERSION[version]) as response:
-                with open(self.raw_file_path, 'wb') as f:
-                    shutil.copyfileobj(response, f)
+        if file is not None:
+            shutil.copyfile(file, self.raw_file_path)
 
     def load_population_subgroups(
         self, population_type: str = "crest",
