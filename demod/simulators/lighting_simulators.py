@@ -15,7 +15,7 @@ class FisherLightingSimulator(Simulator):
 
     Simulates the electric consumption of lighting using a simple
     formula: \n
-    :math:`P_{el, l}(t) =n_{active} \cdot P_{el, l, pp}(t) \cdot
+    :math:`P_{el, l}(t) =n_{active} \\cdot P_{el, l, pp}(t) \\cdot
     \\frac{I_{g, max }-I_{g}(t)}{I_{g, max }-I_{g, min }}`
     \n
     where :math:`n_{active}` is the

@@ -4,7 +4,6 @@ Loads data from the crest spreadsheet.
 """
 
 from datetime import time, timedelta
-from sys import version
 import shutil
 import warnings
 import os
